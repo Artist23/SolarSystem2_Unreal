@@ -37,7 +37,8 @@ FString ASolarSystemGameModeBase::ReadXmlParser(const FString &XmlPath, const FS
 	}
 	FXmlNode* targetNode = RootNode->FindChildNode(target); //find the target node
 	FString targetContent = targetNode->GetContent();   //get inner content
-	return targetContent;
+	
+	return targetContent.Replace(TEXT("(&#x000A;)"), TEXT("\r\n"));
 
 }
 
