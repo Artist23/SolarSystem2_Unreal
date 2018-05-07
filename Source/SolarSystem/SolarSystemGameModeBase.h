@@ -22,4 +22,7 @@ public:
 	//¶ÁÈ¡xmlÎÄ¼þ
 	UFUNCTION(BlueprintCallable, Category = "Xml")
 	static FString  ReadXmlParser(const FString &_XmlPath, const FString &_target);
+
+	UFUNCTION(BlueprintCallable, Category = "Xml")
+	static FString GetTargetContent(const FString &_XmlPath, const FString &targetParent, const FString &_targetChild);
 };

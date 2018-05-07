@@ -25,14 +25,14 @@ FString ASolarSystemGameModeBase::ReadXmlParser(const FString &XmlPath, const FS
 	FXmlFile* XmlFile = NULL;  //create a XML file
 	XmlFile = new FXmlFile(XmlPath);
 	if (XmlFile == NULL) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Filed getting xmlfile"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting xmlfile"));
 		return "";
 	}
 	
 	FXmlNode* RootNode = NULL;//get the root node
 	RootNode = XmlFile->GetRootNode();
 	if (RootNode == NULL) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Filed getting root node"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting root node"));
 		return "";
 	}
 	FXmlNode* targetNode = RootNode->FindChildNode(target); //find the target node
@@ -41,5 +41,41 @@ FString ASolarSystemGameModeBase::ReadXmlParser(const FString &XmlPath, const FS
 	return targetContent.Replace(TEXT("(&#x000A;)"), TEXT("\r\n"));
 
 }
+
+FString ASolarSystemGameModeBase::GetTargetContent(const FString &XmlPath, const FString &targetParent, const FString &targetchild)
+{
+	FXmlFile* XmlFile = NULL;  //create a XML file
+	XmlFile = new FXmlFile(XmlPath);
+	if (XmlFile == NULL) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting xmlfile"));
+		return "";
+	}
+
+	FXmlNode* RootNode = NULL;//get the root node
+	RootNode = XmlFile->GetRootNode();
+	if (RootNode == NULL) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting root node"));
+		return "";
+	}
+
+	FXmlNode* targetParentNode = NULL; //find the target parentnode
+	targetParentNode = RootNode->FindChildNode(targetParent);
+	if (targetParentNode == NULL) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting parent node"));
+		return "";
+	}
+
+	FXmlNode* childNode = NULL;
+	childNode = targetParentNode->FindChildNode(targetchild);
+	if (childNode == NULL) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Failed getting child node"));
+		return "";
+	}
+
+	FString targetContent = childNode->GetContent();  //get the content of the childnode.
+	return targetContent;
+}
+
+
 
 
